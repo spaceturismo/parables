@@ -78,11 +78,11 @@ export class TouchInput {
     this._dpadVisible = true;
 
     const scene = this.scene;
-    const btnSize = 48;
-    const padding = 4;
+    const btnSize = 56;
+    const padding = 6;
     // Position on the left side of the screen
-    const centerX = 80;
-    const centerY = scene.scale.height - 120;
+    const centerX = 90;
+    const centerY = scene.scale.height - 130;
 
     this._dpadContainer = scene.add.container(0, 0).setDepth(2000).setScrollFactor(0);
 
@@ -91,6 +91,25 @@ export class TouchInput {
     bgCircle.fillStyle(0x000000, 0.15);
     bgCircle.fillCircle(centerX, centerY, btnSize * 1.8);
     this._dpadContainer.add(bgCircle);
+
+    // Instruction hint above the d-pad
+    const hintText = scene.add.text(centerX, centerY - btnSize * 2.2, 'TAP ARROWS\nTO MOVE', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '12px',
+      fontStyle: 'bold',
+      color: '#ffffff',
+      stroke: '#000000',
+      strokeThickness: 2,
+      align: 'center',
+    }).setOrigin(0.5).setAlpha(0.6).setScrollFactor(0);
+    this._dpadContainer.add(hintText);
+
+    // Fade out hint after 5 seconds
+    scene.time.delayedCall(5000, () => {
+      if (hintText && hintText.active) {
+        scene.tweens.add({ targets: hintText, alpha: 0, duration: 1000 });
+      }
+    });
 
     const directions = [
       { key: 'up',    label: '\u25B2', x: centerX, y: centerY - btnSize - padding },
@@ -107,12 +126,14 @@ export class TouchInput {
       bg.lineStyle(1, 0xFFFFFF, 0.3);
       bg.strokeRoundedRect(dir.x - btnSize / 2, dir.y - btnSize / 2, btnSize, btnSize, 8);
 
-      // Arrow label
+      // Arrow label — larger and more visible
       const txt = scene.add.text(dir.x, dir.y, dir.label, {
         fontFamily: 'Arial, sans-serif',
-        fontSize: '22px',
+        fontSize: '28px',
         color: '#FFFFFF',
-      }).setOrigin(0.5).setAlpha(0.7);
+        stroke: '#000000',
+        strokeThickness: 2,
+      }).setOrigin(0.5).setAlpha(0.85);
 
       // Interactive zone
       const zone = scene.add.zone(dir.x, dir.y, btnSize, btnSize)
