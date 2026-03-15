@@ -1,0 +1,17 @@
+{
+  "name": "parables",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Parables — narrative puzzle episodes based on the parables of Jesus",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "phaser": "^3.60.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
+}
